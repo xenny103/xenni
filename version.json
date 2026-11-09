@@ -1,10 +1,10 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "notes": [
-    "New Tools tab with Quiz and Planner",
-    "Adjust, zoom and crop your banner photo",
-    "Edit missions, lectures and showcase slots",
-    "20 ranks in order, each with its own title",
-    "Affirmations on the loading screen and home header"
+    "New black and glowing blue look",
+    "Study timer with checks and session summaries",
+    "Stats tool: productivity score, charts, reports and levels",
+    "XP verification levels, limits and XP history",
+    "App backgrounds unlock at Rank 20"
   ]
 }
