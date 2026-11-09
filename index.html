@@ -310,7 +310,7 @@ body.no-nav .dock{display:none}
 <script>
 (function(){
 'use strict';
-var APP_VERSION='1.2.0';
+var APP_VERSION='1.2.1';
 
 /* ---------- storage (falls back to memory if the browser blocks it) ---------- */
 var KEY='xenni_v1', OLDKEY='schoolpal_v1', mem={}, persistent=true;
@@ -780,7 +780,7 @@ function showLevelUp(L){
   overlay('<div class="aura" style="background:'+auraFor(L)+'"><div class="avatar num">'+L+'</div></div><h2>Rank '+L+' unlocked</h2><p>You are now '+t.name+(t.lang?' ('+t.lang+' for '+t.mean+')':', '+t.mean)+'.'+(L===20?' App backgrounds are now unlocked in your Profile.':'')+'</p><button class="btn mint" data-a="closeOverlay">Keep going</button>')}
 
 /* ---------- in-app updates (never automatic: you choose when to update) ---------- */
-var updShown=false;
+var updShown=false,pendingV='';
 function newer(a,b){var x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(var i=0;i<3;i++){var p=x[i]||0,q=y[i]||0;if(p>q)return true;if(p<q)return false}return false}
 function checkUpdate(manual){
   if(!/^https?:/.test(location.protocol)){if(manual)toast('Update checks work once Xenni is published online.');return}
@@ -789,16 +789,18 @@ function checkUpdate(manual){
     else if(manual)toast('You are up to date.\nXenni '+APP_VERSION)
   }).catch(function(){if(manual)toast('Could not check for updates. Check your internet connection.')})}
 function showUpdate(j){
-  updShown=true;if($('#updpop'))return;
+  updShown=true;pendingV=j.version;if($('#updpop'))return;
   var notes=(j.notes||[]).slice(0,6).map(function(n){return '<li>'+esc(n)+'</li>'}).join('');
   var o=document.createElement('div');o.className='pop';o.id='updpop';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
   o.innerHTML='<div class="pop-card"><div style="font-size:2.2rem">🚀</div><h2>Update available</h2><p class="muted" style="font-weight:700">Xenni '+esc(j.version)+' is ready. You have '+APP_VERSION+'.</p>'+(notes?'<ul>'+notes+'</ul>':'')+
    '<p class="hint" style="margin-top:10px">Your missions, XP and profile stay safe.</p><div class="row2"><button class="btn ghost" data-a="updLater">Later</button><button class="btn mint" data-a="updNow">Update now</button></div></div>';
   document.body.appendChild(o);var b=o.querySelector('[data-a=updNow]');if(b)b.focus()}
-function applyUpdate(){
+function applyUpdate(target){
   var o=$('#updpop');if(o)o.remove();showBoot('Updating Xenni');
-  var files=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./apple-touch-icon.png'];
-  var p=('caches' in window)?caches.open('xenni-app').then(function(c){return Promise.all(files.map(function(f){return fetch(f,{cache:'reload'}).then(function(r){if(r.ok)return c.put(f,r)}).catch(function(){})}))}):Promise.resolve();
+  lsSet('xenni_upd',target||'');
+  var files=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./apple-touch-icon.png'],stamp=Date.now();
+  // A unique ?nocache= address makes sure we get the newest files from the internet, not the saved copies.
+  var p=('caches' in window)?caches.open('xenni-app-2').then(function(c){return Promise.all(files.map(function(f){return fetch(f+'?nocache='+stamp,{cache:'reload'}).then(function(r){if(r.ok)return c.put(f,r)}).catch(function(){})}))}):Promise.resolve();
   p.catch(function(){}).then(function(){setTimeout(function(){location.reload()},700)})}
 
 /* ---------- XP engine: verification, limits and anti-cheat ---------- */
@@ -1073,7 +1075,7 @@ var A={
   timerDiscard:function(){S.timer=null;save();closeSheet();render();toast('Session discarded')},
   checkUpdate:function(){checkUpdate(true)},
   updLater:function(){var o=$('#updpop');if(o)o.remove()},
-  updNow:applyUpdate,
+  updNow:function(){applyUpdate(pendingV)},
   resetAsk:function(){openSheet('<h2>Erase everything?</h2><p class="muted">This deletes your profile, missions, XP and badges from this device. It cannot be undone.</p><button class="btn danger block" data-a="reset">Erase all data</button><button class="btn ghost block" data-a="closeSheet">Keep my data</button>')},
   reset:function(){S=fresh();save();closeSheet();tab='home';tool=null;draft={avatar:'🦊',banner:'sakura',bannerImg:null,bannerRaw:null,bannerEdit:null};render()}
 };
@@ -1096,13 +1098,15 @@ document.addEventListener('visibilitychange',function(){if(!document.hidden){che
 if(window.__XENNI_TEST)window.__x={newer:newer,levelFor:levelFor,titleFor:titleFor,TITLES:TITLES,slots:slots,toolCards:toolCards,award:award,prodLevel:prodLevel,periodStats:periodStats,score:score,lastDays:lastDays,addDays:addDays,dkey:dkey,verifiedMs:verifiedMs,tick:tick,expireCheck:expireCheck,get S(){return S}};
 showBoot('Loading');
 render();
+var pend=lsGet('xenni_upd');
+if(pend){lsSet('xenni_upd','');setTimeout(function(){if(newer(pend,APP_VERSION))toast('The update did not finish.\nClose Xenni completely, then open it again.');else toast('Updated to Xenni '+APP_VERSION)},2400)}
 setTimeout(hideBoot,1800);
 setInterval(tick,1000);
 if(S.timer&&S.timer.prompt){if(Date.now()-S.timer.prompt>=WINDOW)expireCheck(S.timer.prompt);else showCheck()}
 setTimeout(function(){checkUpdate(false)},2600);
 if(location.hash==='#update-test')setTimeout(function(){showUpdate({version:'9.9.9',notes:['This is a test of the update popup.','Nothing will really change.']})},2200);
 })();
-if('serviceWorker' in navigator&&/^https?:/.test(location.protocol)){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
+if('serviceWorker' in navigator&&/^https?:/.test(location.protocol)){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').then(function(r){try{r.update()}catch(e){}}).catch(function(){})})}
 </script>
 </body>
 </html>

@@ -1,10 +1,7 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "notes": [
-    "New black and glowing blue look",
-    "Study timer with checks and session summaries",
-    "Stats tool: productivity score, charts, reports and levels",
-    "XP verification levels, limits and XP history",
-    "App backgrounds unlock at Rank 20"
+    "Fixed: the Update now button now installs new versions correctly",
+    "Black and glowing blue look, study timer, stats and XP verification (from 1.2.0)"
   ]
 }
