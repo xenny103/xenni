@@ -190,7 +190,7 @@ body.no-nav .dock{display:none}
 .pop-card h2{font-size:1.7rem;font-weight:700}
 .pop-card ul{margin:10px 0 0 18px;font-weight:600}
 .pop-card .row2{margin-top:18px}
-.toast{position:fixed;top:14px;left:50%;transform:translate(-50%,-140%);background:#07101D;border:1px solid var(--mint);color:var(--gold);padding:10px 18px;border-radius:14px;font-weight:800;z-index:120;white-space:pre-line;text-align:center;transition:transform .3s cubic-bezier(.2,.8,.2,1);max-width:90vw;box-shadow:0 0 30px -6px rgba(var(--glowrgb),.8)}
+.toast{position:fixed;bottom:calc(92px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,220%);background:#07101D;border:1px solid var(--mint);color:var(--gold);padding:10px 18px;border-radius:14px;font-weight:800;z-index:120;white-space:pre-line;text-align:center;transition:transform .3s cubic-bezier(.2,.8,.2,1);max-width:90vw;box-shadow:0 0 30px -6px rgba(var(--glowrgb),.8)}
 .toast.show{transform:translate(-50%,0)}
 
 /* banner editor */
@@ -347,6 +347,40 @@ body.no-nav .dock{display:none}
 .t-meeting,.t-seminar{background:rgba(94,168,255,.2)}
 .t-skill{background:rgba(155,92,255,.24)}
 .t-other{background:rgba(132,149,170,.22)}
+/* notification popups */
+.ntf-host{position:fixed;left:0;right:0;top:calc(10px + env(safe-area-inset-top));z-index:110;display:flex;justify-content:center;padding:0 12px;pointer-events:none}
+.ntf{--ac:#00D9FF;position:relative;display:flex;align-items:center;width:100%;max-width:480px;pointer-events:auto;animation:ntfin .45s cubic-bezier(.2,.9,.25,1) both}
+.ntf-host.out .ntf{animation:ntfout .25s ease-in both}
+.nav-av{position:relative;z-index:2;flex:none;width:58px;height:58px;margin-right:-16px;border-radius:50%;padding:3px;background:linear-gradient(135deg,var(--ac),#087BFF);box-shadow:0 0 18px var(--ac);animation:avin .5s .08s cubic-bezier(.2,.9,.25,1) both}
+.nav-av .nm{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#03050B;font-size:30px;line-height:1}
+.ntf.major .nav-av::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--ac);animation:ring 1.4s .2s ease-out 2 both}
+@keyframes ring{from{opacity:.9;transform:scale(.8)}to{opacity:0;transform:scale(2)}}
+.sp{position:absolute;left:50%;top:50%;width:6px;height:6px;border-radius:50%;background:var(--ac);box-shadow:0 0 8px var(--ac);opacity:0;animation:spark .95s ease-out forwards}
+@keyframes spark{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.4)}}
+.npanel{position:relative;flex:1;min-width:0;padding:11px 12px 11px 26px;border-radius:16px;background:linear-gradient(135deg,rgba(8,14,25,.97),rgba(3,10,26,.97));border:1px solid var(--ac);box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 0 26px -6px var(--ac);overflow:hidden}
+.ntf.major .npanel{box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 0 40px -2px var(--ac)}
+.npanel::before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.16) 50%,transparent 65%);transform:translateX(-120%);animation:scan 1.1s .25s ease-out 1 both;pointer-events:none}
+@keyframes scan{to{transform:translateX(120%)}}
+@keyframes ntfin{from{opacity:0;transform:translateY(-14px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes ntfout{to{opacity:0;transform:translateY(-10px) scale(.97)}}
+@keyframes avin{from{opacity:0;transform:translateX(-22px) scale(.7)}to{opacity:1;transform:none}}
+.nhead{display:flex;align-items:center;gap:8px}
+.nic{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:rgba(255,255,255,.1);font-size:.95rem}
+.nt{flex:1;min-width:0;font-family:'Rajdhani',sans-serif;font-size:1.12rem;font-weight:700;letter-spacing:.03em;color:#fff;overflow-wrap:anywhere}
+.nx{flex:none;width:30px;height:30px;border-radius:9px;color:var(--muted);font-size:.85rem}
+.nx:hover{background:rgba(255,255,255,.08)}
+.nmsg{margin-top:3px;color:var(--ice);font-weight:700;font-size:.9rem;overflow-wrap:anywhere}
+.nchip{display:inline-block;margin-top:6px;padding:1px 10px;border-radius:999px;background:var(--ac);color:#03050B;font-weight:800;font-size:.78rem}
+.nprog{height:7px;margin-top:8px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+.nprog i{display:block;height:100%;border-radius:99px;background:var(--ac);box-shadow:0 0 10px var(--ac)}
+.nl{margin:6px 0 0 16px;color:var(--muted);font-size:.78rem;font-weight:600}
+.nbtn{margin-top:8px;min-height:36px;padding:0 14px;border-radius:10px;border:1px solid var(--ac);color:var(--ac);background:rgba(0,0,0,.25);font-weight:800;font-size:.76rem;letter-spacing:.09em}
+.nbtn:active{transform:scale(.97)}
+@media (max-width:359px){
+ .ntf{align-items:flex-start;margin-top:18px}
+ .nav-av{position:absolute;top:-18px;left:10px;width:46px;height:46px;margin:0}
+ .nav-av .nm{font-size:24px}
+ .npanel{padding:20px 10px 10px 12px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.cf{display:none}}
 </style>
 </head>
@@ -369,6 +403,7 @@ body.no-nav .dock{display:none}
   </nav>
 </div></div>
 <div class="sheet-wrap hidden" id="sheetWrap"><div class="scrim" data-a="closeSheet"></div><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<div class="ntf-host" id="ntfHost" aria-live="polite"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <input type="file" id="bnfile" accept="image/*" hidden>
 <input type="file" id="evfile" accept="image/*" hidden>
@@ -376,7 +411,7 @@ body.no-nav .dock{display:none}
 <script>
 (function(){
 'use strict';
-var APP_VERSION='1.3.0';
+var APP_VERSION='1.4.0';
 
 /* ---------- storage (falls back to memory if the browser blocks it) ---------- */
 var KEY='xenni_v1', OLDKEY='schoolpal_v1', mem={}, persistent=true;
@@ -385,11 +420,12 @@ function lsGet(k){try{return window.localStorage.getItem(k)}catch(e){persistent=
 function lsSet(k,v){try{window.localStorage.setItem(k,v)}catch(e){persistent=false;mem[k]=v}}
 function fresh(){return {v:2,profile:null,xp:0,coins:0,tasks:[],lectures:[],badges:[],log:[],awarded:{},timer:null,
   stats:{streak:0,best:0,last:null,done:0,study:0,exams:0,onTime:0,bonusDay:null,studyMin:0,maxSession:0,high:0},
-  settings:{sound:true,target:100,bg:'void',pat:'glow'}}}
+  settings:{sound:true,volume:60,popups:true,target:100,bg:'void',pat:'glow'},popped:{}}}
 function load(){try{var r=lsGet(KEY)||lsGet(OLDKEY);if(r){var o=JSON.parse(r),f=fresh();
   var s=Object.assign(f,o,{stats:Object.assign(f.stats,o.stats||{}),settings:Object.assign(f.settings,o.settings||{})});
   if(!o.log){s.log=(o.tasks||[]).filter(function(t){return t.done}).map(function(t){return {id:t.id,ts:t.doneAt||0,day:t.doneDay||dkey(),kind:'mission',type:t.type,title:t.title,xp:t.xp||0,v:'low',min:0,note:'Earlier activity'}})}
   if(!s.awarded)s.awarded={};
+  if(!s.popped)s.popped={};
   return s}}catch(e){}return fresh()}
 var S=load();
 function save(){lsSet(KEY,JSON.stringify(S))}
@@ -548,11 +584,131 @@ function sumXP(fn){return S.log.reduce(function(a,e){return a+(fn(e)?e.xp:0)},0)
 function expXP(type){var T=TYPES[type];return SELF[type]?Math.round(T.xp*VM.low):T.xp}
 
 /* feedback: sound, vibration, toast */
-var ac;
-function beep(seq){if(!S.settings.sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();var t=ac.currentTime;
-  seq.forEach(function(n){var o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=n[0];
-  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+n[1]);
-  o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+n[1]+.02);t+=n[1]*.8})}catch(e){}}
+/* ---------- sound system: original synthesized sounds (no audio files, no copyrighted material) ---------- */
+// A sound is a list of notes {t: start (s), f: Hz or [from,to] sweep, d: length (s), w: wave, g: loudness}.
+// To add a new sound: add one entry to SOUNDS and point a notification type at it in NTYPES.
+var ac=null,sndUntil=0,VOL_BASE=.22;
+function seq(freqs,step,dur,wave,gain,t0){return freqs.map(function(f,i){return {t:(t0||0)+i*step,f:f,d:dur,w:wave,g:gain}})}
+function chord(freqs,t,dur,wave,gain){return freqs.map(function(f){return {t:t,f:f,d:dur,w:wave,g:gain}})}
+var SOUNDS={
+ task:seq([784,1175],.09,.22,'triangle',1),                                                   // short digital success chime
+ xp:seq([1318,1568,1976,2637],.05,.12,'sine',.7),                                             // energy collection sparkle
+ xpbig:seq([1047,1318,1568,1976,2349,3136],.05,.14,'sine',.75).concat([{t:.28,f:[220,80],d:.3,w:'sine',g:.7}]),   // richer version for big rewards
+ level:seq([523,659,784,1047],.15,.22,'triangle',.9).concat(chord([1047,1319,1568],.62,1,'triangle',.7),[{t:.62,f:[130,55],d:.55,w:'sine',g:1}],seq([2093,2637,3136],.08,.12,'sine',.3,.7)),   // rising level-up fanfare
+ achieve:seq([880,1109,1319,1760],.09,.16,'sine',.65).concat(seq([2093,2637,3136,2637,3520],.07,.12,'sine',.3,.3),chord([523,659,784,1047],.65,.9,'triangle',.6)),   // sparkling achievement fanfare
+ dquest:[{t:0,f:[300,900],d:.28,w:'sine',g:.9},{t:.3,f:1200,d:.08,w:'square',g:.3},{t:.42,f:1600,d:.1,w:'square',g:.3}],   // system activation
+ wquest:[{t:0,f:[140,520],d:.42,w:'sawtooth',g:.45},{t:.45,f:392,d:.2,w:'triangle',g:.9},{t:.65,f:587,d:.34,w:'triangle',g:.9}],   // deeper mission announcement
+ study:[{t:0,f:880,d:.55,w:'sine',g:.8},{t:.04,f:1760,d:.3,w:'sine',g:.22}],                 // gentle ping
+ deadline:[{t:0,f:988,d:.09,w:'square',g:.3},{t:.17,f:988,d:.09,w:'square',g:.3}],           // two short alert pulses
+ warn:chord([196,98],0,.5,'triangle',.9),                                                     // low warning tone
+ discipline:[{t:0,f:[247,185],d:.55,w:'sawtooth',g:.4},{t:.55,f:[185,139],d:.75,w:'sawtooth',g:.4},{t:0,f:62,d:1.25,w:'sine',g:.8}],   // serious system alert (kept soft)
+ cprog:seq([659,784,988],.1,.2,'triangle',.85),                                               // positive progress chime
+ cdone:seq([523,659,784,1047,1319],.12,.2,'triangle',.9).concat(seq([2093,2637,3136,3520],.07,.12,'sine',.3,.62),chord([1047,1319,1568,2093],.7,1,'triangle',.65))   // victory fanfare
+};
+// Only one sound plays at a time: a new sound is scheduled after the previous one finishes.
+function playSnd(name,big){
+  if(!S.settings.sound||document.hidden)return;
+  var notes=SOUNDS[(name==='xp'&&big)?'xpbig':name];if(!notes)return;
+  try{
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();
+    var vol=Math.max(0,Math.min(100,S.settings.volume==null?60:S.settings.volume))/100,now=ac.currentTime;
+    if(sndUntil-now>2.5)return;                       // do not let sounds pile up
+    var start=Math.max(now+.02,sndUntil),end=start;
+    notes.forEach(function(n){
+      var o=ac.createOscillator(),g=ac.createGain(),t0=start+n.t,t1=t0+n.d;o.type=n.w;
+      if(Array.isArray(n.f)){o.frequency.setValueAtTime(n.f[0],t0);o.frequency.exponentialRampToValueAtTime(n.f[1],t1)}else o.frequency.setValueAtTime(n.f,t0);
+      g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(Math.max(.0002,VOL_BASE*vol*n.g),t0+Math.min(.02,n.d/3));g.gain.exponentialRampToValueAtTime(.0001,t1);
+      o.connect(g);g.connect(ac.destination);o.start(t0);o.stop(t1+.03);end=Math.max(end,t1)});
+    sndUntil=end+.08
+  }catch(e){}}
+
+/* ---------- notification popups: one reusable component for every category ---------- */
+// To add a category: add an entry here (and a sound above). notify({type,title,msg,xp,v,progress,chip,icon,lines,action}) does the rest.
+var NTYPES={
+ task:{label:'Task completed',icon:'✅',ac:'#35F59A',snd:'task',dur:4200},
+ xp:{label:'XP earned',icon:'⚡',ac:'#00D9FF',snd:'xp',dur:3800},
+ level:{label:'Level unlocked',icon:'🏆',ac:'#9B5CFF',snd:'level',major:true,dur:6500},
+ achieve:{label:'Achievement unlocked',icon:'🏅',ac:'#FFC857',snd:'achieve',major:true,dur:6000},
+ dquest:{label:'Daily quest received',icon:'🎯',ac:'#00D9FF',snd:'dquest',dur:4600},
+ wquest:{label:'Weekly quest received',icon:'🗓️',ac:'#087BFF',snd:'wquest',dur:5000},
+ study:{label:'Study reminder',icon:'📖',ac:'#5EA8FF',snd:'study',dur:4600},
+ deadline:{label:'Upcoming deadline',icon:'⏰',ac:'#FFAA33',snd:'deadline',dur:5200},
+ warn:{label:'General warning',icon:'⚠️',ac:'#FFAA33',snd:'warn',dur:5200},
+ discipline:{label:'Serious disciplinary notice',icon:'🛡️',ac:'#FF5A6E',snd:'discipline',dur:7000},
+ cprog:{label:'21-day challenge progress',icon:'🌱',ac:'#35F59A',snd:'cprog',dur:4600},
+ cdone:{label:'21-day challenge completed',icon:'🎉',ac:'#FFC857',snd:'cdone',major:true,dur:6500}};
+var DEFAULT_AVATAR='🦊';
+var PSAMPLE={
+ task:{title:'Mission complete',msg:'Finish the lab report',xp:90,v:'moderate'},
+ xp:{title:'XP earned',msg:'You collected experience points.',xp:140},
+ level:{title:'Rank 6 unlocked',msg:'You are now Alim (Arabic for scholar).',chip:'RANK 6'},
+ achieve:{title:'Achievement unlocked',msg:'Flame Keeper: 7-day streak',icon:'🔥'},
+ dquest:{title:'New daily quest',msg:'Complete 3 missions today.'},
+ wquest:{title:'New weekly quest',msg:'Study for 5 hours this week.'},
+ study:{title:'Study reminder',msg:'Biology study session starts in 15 minutes.'},
+ deadline:{title:'Upcoming deadline',msg:'Accounting assignment is due tomorrow.'},
+ warn:{title:'Heads up',msg:'You are close to today\'s XP limit.'},
+ discipline:{title:'Account notice',msg:'This is only a sample of a serious notice.'},
+ cprog:{title:'Challenge progress',msg:'Day 8 of 21 complete.',progress:38},
+ cdone:{title:'Challenge completed!',msg:'You finished a 21-day challenge.'}};
+var NQ=[],nCur=null,nTimer=null;
+function notify(c){
+  var t=NTYPES[c.type]||NTYPES.task,n=Object.assign({action:null,lines:[],xp:0},t,c);
+  if(c.type==='task'&&n.xp>0&&!c.snd)n.snd=['task','xp'];                      // completion chime, then the XP sparkle (never at the same time)
+  if(!n.action&&n.lines&&n.lines.length)n.action={kind:'info',title:n.title,lines:[n.msg].concat(n.lines)};
+  if(S.settings.popups===false){[].concat(n.snd).forEach(function(s){playSnd(s,n.xp>=100)});toast(n.title+(n.msg?'\n'+n.msg:''));return}
+  if(NQ.length>=8)NQ.shift();
+  NQ.push(n);if(!nCur)setTimeout(nextNotif,0)}
+function ntfHtml(n){
+  var av=(S.profile&&S.profile.avatar)||DEFAULT_AVATAR,sparks='';
+  if(n.major)for(var i=0;i<14;i++){var a=i/14*Math.PI*2,r=58+Math.round(Math.random()*30);sparks+='<i class="sp" style="--dx:'+Math.round(Math.cos(a)*r)+'px;--dy:'+Math.round(Math.sin(a)*r)+'px;animation-delay:'+(Math.random()*.25).toFixed(2)+'s"></i>'}
+  var chip=n.chip||(n.xp>0?'+'+n.xp+' XP'+(n.v?' · '+VLABEL[n.v]:''):'');
+  var prog=typeof n.progress==='number'?'<div class="nprog" role="progressbar" aria-valuenow="'+n.progress+'" aria-valuemin="0" aria-valuemax="100"><i style="width:'+n.progress+'%"></i></div>':'';
+  var lines=(n.lines||[]).slice(0,3).map(function(l){return '<li>'+esc(l)+'</li>'}).join('');
+  return '<div class="ntf'+(n.major?' major':'')+'" style="--ac:'+n.ac+'" role="status">'+
+    '<div class="nav-av" aria-hidden="true"><span class="nm">'+av+'</span>'+sparks+'</div>'+
+    '<div class="npanel"><div class="nhead"><span class="nic">'+n.icon+'</span><b class="nt">'+esc(n.title)+'</b><button class="nx" data-a="ntfClose" aria-label="Dismiss notification">✕</button></div>'+
+    (n.msg?'<p class="nmsg">'+esc(n.msg)+'</p>':'')+(chip?'<span class="nchip">'+esc(chip)+'</span>':'')+prog+(lines?'<ul class="nl">'+lines+'</ul>':'')+
+    (n.action?'<button class="nbtn" data-a="ntfOpen">VIEW DETAILS</button>':'')+'</div></div>'}
+function nextNotif(){
+  if(nCur||!NQ.length)return;
+  var n=NQ.shift();nCur=n;$('#ntfHost').innerHTML=ntfHtml(n);
+  [].concat(n.snd).forEach(function(s){playSnd(s,n.xp>=100)});
+  if(n.major)buzz([40,40,80]);
+  armNotif(NQ.length?(n.major?3600:2400):n.dur)}
+function armNotif(ms){clearTimeout(nTimer);nTimer=setTimeout(closeNotif,ms)}
+function holdNotif(){if(nCur)armNotif(6500)}                       // touching a popup gives you extra time to read it
+function closeNotif(){
+  clearTimeout(nTimer);if(!nCur)return;var host=$('#ntfHost');host.classList.add('out');
+  setTimeout(function(){host.innerHTML='';host.classList.remove('out');nCur=null;setTimeout(nextNotif,120)},240)}
+function ntfRun(a){
+  if(!a)return;
+  if(a.kind==='detail')detailSheet(a.k,a.id);
+  else if(a.kind==='tab'){tab=a.v;tool=null;backTo=null;closeSheet();render();window.scrollTo(0,0)}
+  else if(a.kind==='stats'){backTo=null;tab='tools';tool='stats';ssub=a.sub||'over';closeSheet();render();window.scrollTo(0,0)}
+  else if(a.kind==='info')openSheet('<h2>'+esc(a.title)+'</h2><div class="card" style="margin-top:12px">'+(a.lines||[]).filter(Boolean).map(function(l){return '<div class="hrow"><div class="hm"><b>'+esc(l)+'</b></div></div>'}).join('')+'</div><button class="btn ghost block" data-a="closeSheet">Close</button>')}
+// Proactive reminders: each approaching deadline or class pops up once (remembered, so it never repeats).
+function checkReminders(){
+  if(!S.profile)return;
+  var today=dkey(),shown=0;S.popped=S.popped||{};
+  Object.keys(S.popped).forEach(function(k){if(S.popped[k]!==today)delete S.popped[k]});
+  remindersList().filter(function(r){return r.u>=2}).forEach(function(r){
+    var key=r.k+r.id+':'+r.u;if(S.popped[key]||shown>=2)return;
+    S.popped[key]=today;shown++;
+    var t=r.k==='task'?S.tasks.filter(function(x){return x.id===r.id})[0]:null,study=r.k==='lec'||(t&&(t.type==='study'||t.type==='reading'));
+    notify(study?{type:'study',title:'Study reminder',msg:r.text,action:{kind:'detail',k:r.k,id:r.id}}
+                :r.ov?{type:'warn',title:'Overdue',msg:r.text,action:{kind:'detail',k:r.k,id:r.id}}
+                :{type:'deadline',title:'Upcoming deadline',msg:r.text,action:{kind:'detail',k:r.k,id:r.id}})});
+  if(shown)save()}
+function notifSettings(){
+  var vol=S.settings.volume==null?60:S.settings.volume;
+  return '<h3>Notifications</h3><div class="card">'+
+   '<div class="set"><b>Sounds</b><button class="sw" role="switch" aria-checked="'+S.settings.sound+'" aria-label="Notification sounds" data-a="sound"></button></div>'+
+   '<div class="set" style="display:block"><label for="vol" style="margin:0 0 4px">Volume <span id="volv">'+vol+'%</span></label><input id="vol" type="range" min="0" max="100" value="'+vol+'" aria-label="Notification volume"></div>'+
+   '<div class="set"><b>Popup notifications</b><button class="sw" role="switch" aria-checked="'+(S.settings.popups!==false)+'" aria-label="Popup notifications" data-a="popups"></button></div>'+
+   '<div class="hint">Your phone\'s media volume and silent settings still apply.</div>'+
+   '<label>Preview sounds</label><div class="chips" style="flex-wrap:wrap;overflow:visible">'+Object.keys(NTYPES).map(function(k){return '<button class="ch" data-a="preview" data-v="'+k+'">'+NTYPES[k].icon+' '+NTYPES[k].label+'</button>'}).join('')+'</div></div>'}
+
 function buzz(p){try{if(navigator.vibrate)navigator.vibrate(p)}catch(e){}}
 var tt;
 function toast(msg){var el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},3200)}
@@ -610,7 +766,7 @@ function remindersList(){
     else if(d===0){
       if(work||exam){var soon=m!=null&&m-mins<=180&&m-mins>=-60;u=soon?3:2;text=T.label+': '+t.title+' is due '+(m!=null?'at '+fmtTime(t.time):'today')}
       else if(ev){u=(m!=null&&m-mins<=120)?2:1;text=T.label+': '+t.title+(m!=null?' at '+fmtTime(t.time):' today')}
-      else if(learn){u=1;text=(ty==='reading'?'Read: ':'Revise: ')+t.title+' today'}
+      else if(learn){if(m!=null&&m-mins>=0&&m-mins<=15){u=2;text=t.title+' starts in '+(m-mins)+' minute'+((m-mins)===1?'':'s')}else{u=1;text=(ty==='reading'?'Read: ':'Revise: ')+t.title+' today'}}
       else{u=1;text=t.title+' is planned for today'}}
     else if(d===1){
       if(work){u=2;text=t.title+' is due tomorrow'}
@@ -618,7 +774,7 @@ function remindersList(){
     else if(exam&&d<=(ty==='exam'?7:3)){u=d<=(ty==='exam'?3:2)?2:1;text=T.label+' in '+d+' days: '+t.title+'. Time to revise.'}
     else if(work&&d<=3){u=1;text=t.title+' is due in '+d+' days'}
     else if(ev&&d<=7){u=1;text=T.label+': '+t.title+' on '+pd(t.date).toLocaleDateString(undefined,{weekday:'long'})}
-    if(u)out.push({k:'task',id:t.id,u:u,icon:T.icon,text:text,key:t.date+(t.time||'99:99')})});
+    if(u)out.push({k:'task',id:t.id,u:u,icon:T.icon,text:text,key:t.date+(t.time||'99:99'),ov:d<0})});
   var shown=false;
   S.lectures.filter(function(l){return l.day===now.getDay()}).sort(function(a,b){return a.start.localeCompare(b.start)}).forEach(function(l){
     var s=mm(l.start),e=mm(l.end);if(e<=mins||s<=mins)return;
@@ -930,8 +1086,7 @@ function viewProfile(){
    '<h3>Showcase shelf</h3><div class="shelf">'+shelf+'</div><div class="hint">Tap a slot to change, move or clear it.</div>'+
    '<h3>My stats</h3><div class="stats"><div class="stat"><em>Wisdom</em><b>'+S.stats.study+'</b><span>study sessions</span></div><div class="stat"><em>Discipline</em><b>'+S.stats.best+'</b><span>best streak, days</span></div><div class="stat"><em>Drive</em><b>'+S.stats.done+'</b><span>missions done</span></div></div>'+
    '<button class="btn ghost block" style="margin-top:12px" data-a="openStats">Open productivity stats</button>'+
-   '<h3>Settings</h3>'+bgSection()+'<div class="card" style="margin-top:12px">'+
-   '<div class="set"><b>Sound</b><button class="sw" role="switch" aria-checked="'+S.settings.sound+'" aria-label="Sound" data-a="sound"></button></div>'+
+   '<h3>Settings</h3>'+bgSection()+notifSettings()+'<div class="card" style="margin-top:12px">'+
    '<div class="set"><div><b>App version</b><div class="muted" style="font-size:.85rem">Xenni '+APP_VERSION+'</div></div><button class="btn ghost" style="min-height:40px" data-a="checkUpdate">Check for updates</button></div>'+
    '<div class="set"><b>Erase all data</b><button class="btn danger" style="min-height:40px" data-a="resetAsk">Erase</button></div></div>'+
    (persistent?'':'<div class="notice">Preview mode: your data is not saved after you close this preview. Once Xenni is published, it saves on your phone.</div>')}
@@ -966,10 +1121,6 @@ function confetti(box){var cs=['#1A6FEA','#38B6FF','#FFC93C','#FF5A6E','#fff'];f
   s.style.cssText='left:'+Math.random()*100+'%;background:'+cs[i%5]+';animation-delay:'+Math.random()*.6+'s;animation-duration:'+(1.8+Math.random()*1.4)+'s;transform:rotate('+Math.random()*360+'deg)';box.appendChild(s)}}
 function overlay(html){var o=document.createElement('div');o.className='overlay';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.innerHTML=html;document.body.appendChild(o);confetti(o);
   var b=o.querySelector('button');if(b)b.focus();return o}
-function showLevelUp(L){
-  var t=titleFor(L);beep([[523,.14],[659,.14],[784,.14],[1047,.34]]);buzz([40,40,80]);
-  overlay('<div class="aura" style="background:'+auraFor(L)+'"><div class="avatar num">'+L+'</div></div><h2>Rank '+L+' unlocked</h2><p>You are now '+t.name+(t.lang?' ('+t.lang+' for '+t.mean+')':', '+t.mean)+'.'+(L===20?' App backgrounds are now unlocked in your Profile.':'')+'</p><button class="btn mint" data-a="closeOverlay">Keep going</button>')}
-
 /* ---------- in-app updates (never automatic: you choose when to update) ---------- */
 var updShown=false,pendingV='';
 function newer(a,b){var x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(var i=0;i<3;i++){var p=x[i]||0,q=y[i]||0;if(p>q)return true;if(p<q)return false}return false}
@@ -1014,11 +1165,12 @@ function award(o){
   var s=S.stats;
   if(sumXP(function(e){return e.day===day})>=STREAKXP&&s.last!==day){s.streak=(s.last&&diffDays(day,s.last)===1)?s.streak+1:1;s.last=day;s.best=Math.max(s.best,s.streak)}
   return {xp:xp}}
-function commit(lines,beforeL){
+function commit(beforeL){
   var nb=[];BADGES.forEach(function(b){if(S.badges.indexOf(b.id)<0&&b.test(S)){S.badges.push(b.id);nb.push(b)}});
-  nb.forEach(function(b){lines.push(b.icon+' Badge unlocked: '+b.name)});
-  save();render();beep([[660,.1],[880,.14]]);buzz(30);if(lines.length)toast(lines.join('\n'));
-  var a=levelFor(S.xp);if(a>beforeL)setTimeout(function(){showLevelUp(a)},700)}
+  nb.forEach(function(b){notify({type:'achieve',title:'Achievement unlocked',msg:b.name+': '+b.desc,icon:b.icon,action:{kind:'tab',v:'ranks'}})});
+  save();render();buzz(30);
+  var a=levelFor(S.xp);
+  if(a>beforeL){var t=titleFor(a);notify({type:'level',title:'Rank '+a+' unlocked',msg:'You are now '+t.name+(t.lang?' ('+t.lang+' for '+t.mean+')':', '+t.mean)+'.'+(a===20?' App backgrounds are now unlocked.':''),chip:'RANK '+a,action:{kind:'tab',v:'ranks'}})}}
 function completeTask(t,o){
   var today=dkey(),T=TYPES[t.type],lines=[],beforeL=levelFor(S.xp),v=o.v;
   var raw=T.xp*VM[v]*(o.perf||1),scored=(t.type==='assignment'||t.type==='project'),late=scored&&today>t.date;
@@ -1029,10 +1181,13 @@ function completeTask(t,o){
   var r=award({kind:'mission',type:t.type,title:t.title,v:v,xp:raw,key:key,taskId:t.id,lines:lines});
   t.xp=r.xp;
   var s=S.stats;s.done++;if(t.type==='study'||t.type==='reading')s.study++;if(t.type==='exam')s.exams++;if(scored&&!late)s.onTime++;if(v==='high')s.high++;
-  if(r.xp>0)lines.unshift('+'+r.xp+' XP · '+VLABEL[v]);
+  var act={kind:'detail',k:'task',id:t.id};
+  if(r.xp>0)notify({type:'task',title:'Mission complete',msg:t.title,xp:r.xp,v:v,lines:lines,action:act});
+  else notify({type:'warn',title:'Mission complete, no XP',msg:t.title,lines:lines,action:act});
   var td=S.tasks.filter(function(x){return x.date===today});
-  if(td.length>=3&&td.every(function(x){return x.done})&&s.bonusDay!==today){s.bonusDay=today;var b=award({kind:'bonus',type:'bonus',title:"Today's plan complete",v:'moderate',xp:50,lines:lines});if(b.xp>0)lines.push("Today's plan complete: +"+b.xp+' XP')}
-  commit(lines,beforeL)}
+  if(td.length>=3&&td.every(function(x){return x.done})&&s.bonusDay!==today){s.bonusDay=today;var b=award({kind:'bonus',type:'bonus',title:"Today's plan complete",v:'moderate',xp:50,lines:[]});
+    if(b.xp>0)notify({type:'xp',title:"Today's plan complete",msg:'You finished every mission due today.',xp:b.xp,v:'moderate',action:{kind:'stats',sub:'hist'}})}
+  commit(beforeL)}
 
 /* ---------- study timer logic ---------- */
 function tick(){
@@ -1046,11 +1201,11 @@ function showCheck(){
   var left=Math.max(0,WINDOW-(Date.now()-T.prompt)),p=T.prompt;
   var o=document.createElement('div');o.className='pop';o.id='chkpop';o.setAttribute('role','alertdialog');o.setAttribute('aria-modal','true');
   o.innerHTML='<div class="pop-card"><div style="font-size:2.2rem">⏱️</div><h2>Still studying?</h2><p class="muted" style="font-weight:700">Tap within 2 minutes to keep this stretch counted.</p><button class="btn mint block" data-a="timerCheck">Yes, I am studying</button></div>';
-  document.body.appendChild(o);beep([[600,.1]]);buzz([60]);
+  document.body.appendChild(o);playSnd('study');buzz([60]);
   setTimeout(function(){expireCheck(p)},left)}
 function expireCheck(p){
   var T=S.timer;if(!T||T.prompt!==p)return;
-  T.missed++;T.mark=Date.now();T.prompt=null;save();var o=$('#chkpop');if(o)o.remove();toast('Check missed. That stretch was not counted.')}
+  T.missed++;T.mark=Date.now();T.prompt=null;save();var o=$('#chkpop');if(o)o.remove();notify({type:'warn',title:'Check missed',msg:'That stretch was not counted.'})}
 function endSheet(){
   var T=S.timer,now=Date.now(),min=Math.floor(verifiedMs(now)/60000);
   openSheet('<h2>Finish session</h2><p class="muted">'+esc(T.course)+(T.topic?': '+esc(T.topic):'')+'</p><div class="card" style="margin-top:12px"><b>'+min+' verified minute'+(min===1?'':'s')+'</b><div class="muted" style="font-size:.85rem">Total time '+fmtClock(now-T.start)+'. Checks passed: '+T.passed+', missed: '+T.missed+'.</div></div>'+
@@ -1063,8 +1218,11 @@ function saveSession(){
   if(vl==='moderate'&&S.log.some(function(e){return e.kind==='timer'&&e.sum===norm(sum)&&e.day>=addDays(dkey(),-7)})){vl='low';lines.push('This summary matches an earlier one: counted as Low.')}
   var title=T.course+(T.topic?': '+T.topic:''),r=award({kind:'timer',type:'study',title:title,v:vl,xp:min*.6*VM[vl],min:min,sum:norm(sum),lines:lines});
   var s=S.stats;s.studyMin+=min;s.study++;s.maxSession=Math.max(s.maxSession,min);
-  if(r.xp>0)lines.unshift('+'+r.xp+' XP · '+VLABEL[vl]+' · '+min+' min');
-  S.timer=null;closeSheet();commit(lines,beforeL)}
+  S.timer=null;closeSheet();
+  var act={kind:'stats',sub:'hist'};
+  if(r.xp>0)notify({type:'task',title:'Study session saved',msg:title+' · '+min+' min',xp:r.xp,v:vl,lines:lines,action:act});
+  else notify({type:'warn',title:'Study session saved, no XP',msg:title+' · '+min+' min',lines:lines,action:act});
+  commit(beforeL)}
 
 /* ---------- forms ---------- */
 function addSheet(task){
@@ -1257,7 +1415,11 @@ var A={
   moveSlot:function(el){var i=Number(el.dataset.i),j=i+Number(el.dataset.d),sl=slots();if(j<0||j>2)return;var t=sl[i];sl[i]=sl[j];sl[j]=t;setSlots(sl);slotSheet(j)},
   setBg:function(el){if(levelFor(S.xp)<20)return;S.settings.bg=el.dataset.v;save();render()},
   setPat:function(el){if(levelFor(S.xp)<20)return;S.settings.pat=el.dataset.v;save();render()},
-  sound:function(){S.settings.sound=!S.settings.sound;save();render();if(S.settings.sound)beep([[660,.1]])},
+  sound:function(){S.settings.sound=!S.settings.sound;save();render();if(S.settings.sound)playSnd('study')},
+  popups:function(){S.settings.popups=!(S.settings.popups!==false);save();render()},
+  preview:function(el){var k=el.dataset.v;notify(Object.assign({type:k,preview:true},PSAMPLE[k]))},
+  ntfClose:function(){closeNotif()},
+  ntfOpen:function(){var a=nCur&&nCur.action;closeNotif();ntfRun(a)},
   targetSheet:function(){openSheet('<h2>Daily target</h2><p class="muted">How much XP counts as a fully productive day (100%). A day at 70% or more is a productive day.</p><label for="g-t">XP per day (50 to 500)</label><input id="g-t" type="number" min="50" max="500" step="10" inputmode="numeric" value="'+target()+'"><div class="err" id="err" role="alert"></div><button class="btn block" data-a="saveTarget">Save target</button>')},
   saveTarget:function(){var n=parseInt(v('g-t'),10);if(isNaN(n)||n<50||n>500){err('Enter a number from 50 to 500.');return}S.settings.target=n;save();closeSheet();render();toast('Daily target set to '+n+' XP')},
   timerStart:function(){var c=v('t-course');if(!c){err('Enter the course or subject you are studying.');return}
@@ -1280,25 +1442,29 @@ document.addEventListener('click',function(e){var el=e.target.closest('[data-a]'
 document.addEventListener('change',function(e){
   if(e.target.id==='bnfile'&&e.target.files[0]){var file=e.target.files[0];e.target.value='';
     readImage(file,1600,function(d){if(!d){toast('That image could not be read. Try a different photo.');return}draft.bannerEdit=null;openBannerEditor(d)})}
+  if(e.target.id==='vol')playSnd('study');
   if(e.target.id==='evfile'&&e.target.files[0]){var f2=e.target.files[0];e.target.value='';
     readImage(f2,700,function(d){var n=$('#evnote');if(!d){if(n)n.textContent='That image could not be read. Try a different photo.';return}if(fin)fin.img=d;if(n)n.textContent='Photo added ✓'})}});
 document.addEventListener('input',function(e){
   var t=e.target;
   if(t.id==='zoom'&&ed){ed.s=ed.sf*Math.pow(ed.smax/ed.sf,Number(t.value)/100);edApply(true)}
-  if(t.id==='tq'){tq=t.value;var g=$('#tgrid');if(g)g.innerHTML=toolCards()}});
+  if(t.id==='tq'){tq=t.value;var g=$('#tgrid');if(g)g.innerHTML=toolCards()}
+  if(t.id==='vol'){S.settings.volume=Number(t.value);save();var vv=$('#volv');if(vv)vv.textContent=t.value+'%'}});
+document.addEventListener('pointerdown',function(e){if(e.target&&e.target.closest&&e.target.closest('.ntf'))holdNotif()});
 document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'){var o=document.querySelector('.overlay');if(o)o.remove();else{var u=$('#updpop');if(u)u.remove();else closeSheet()}}
+  if(e.key==='Escape'){if(nCur){closeNotif();return}var o=document.querySelector('.overlay');if(o)o.remove();else{var u=$('#updpop');if(u)u.remove();else closeSheet()}}
   if(e.key==='Enter'&&e.target.tagName==='INPUT'&&e.target.type!=='file'&&e.target.type!=='range'&&e.target.type!=='search'){var b=$('#sheet [data-a^=save]')||$('#app [data-a=start]')||$('#app [data-a=timerStart]');if(b){e.preventDefault();b.click()}}});
-document.addEventListener('visibilitychange',function(){if(!document.hidden){checkUpdate(false);tick()}});
+document.addEventListener('visibilitychange',function(){if(!document.hidden){checkUpdate(false);tick();setTimeout(checkReminders,600)}});
 
 /* ---------- start ---------- */
-if(window.__XENNI_TEST)window.__x={safe:safe,remindersList:remindersList,scheduleItems:scheduleItems,nextLecture:nextLecture,recommend:recommend,TYPES:TYPES,rotate:function(){rotateMsg()},newer:newer,levelFor:levelFor,titleFor:titleFor,TITLES:TITLES,slots:slots,toolCards:toolCards,award:award,prodLevel:prodLevel,periodStats:periodStats,score:score,lastDays:lastDays,addDays:addDays,dkey:dkey,verifiedMs:verifiedMs,tick:tick,expireCheck:expireCheck,get S(){return S}};
+if(window.__XENNI_TEST)window.__x={notify:notify,nstate:function(){return {cur:nCur,q:NQ.length,html:$('#ntfHost').innerHTML}},playSnd:playSnd,checkReminders:checkReminders,SOUNDS:SOUNDS,NTYPES:NTYPES,closeNotif:closeNotif,safe:safe,remindersList:remindersList,scheduleItems:scheduleItems,nextLecture:nextLecture,recommend:recommend,TYPES:TYPES,rotate:function(){rotateMsg()},newer:newer,levelFor:levelFor,titleFor:titleFor,TITLES:TITLES,slots:slots,toolCards:toolCards,award:award,prodLevel:prodLevel,periodStats:periodStats,score:score,lastDays:lastDays,addDays:addDays,dkey:dkey,verifiedMs:verifiedMs,tick:tick,expireCheck:expireCheck,get S(){return S}};
 showBoot('Loading');
 render();
 var pend=lsGet('xenni_upd');
 if(pend){lsSet('xenni_upd','');setTimeout(function(){if(newer(pend,APP_VERSION))toast('The update did not finish.\nClose Xenni completely, then open it again.');else toast('Updated to Xenni '+APP_VERSION)},2400)}
 setTimeout(hideBoot,1800);
 setInterval(tick,1000);
+setTimeout(checkReminders,3200);setInterval(checkReminders,60000);
 function rotateMsg(){msgIdx=(msgIdx+1)%AFFIRM.length;var m=$('#wmsg');if(m)m.textContent=AFFIRM[msgIdx]}
 setInterval(rotateMsg,30*60000);
 if(S.timer&&S.timer.prompt){if(Date.now()-S.timer.prompt>=WINDOW)expireCheck(S.timer.prompt);else showCheck()}

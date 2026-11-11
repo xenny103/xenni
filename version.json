@@ -1,9 +1,9 @@
 {
-  "version": "1.3.0",
+  "version": "1.4.0",
   "notes": [
-    "Redesigned Home: progress overview, academic dashboard and today's schedule",
-    "Weekly performance, upcoming reminders and smart recommendations",
-    "Notifications bell, activity details and new activity types",
-    "Updated black and electric-blue color palette"
+    "New futuristic notification popups with your avatar beside them",
+    "A different sound for each notification type, with volume and preview",
+    "Reminder popups for deadlines, overdue work and study sessions",
+    "Level-ups and achievements now arrive as popups"
   ]
 }
